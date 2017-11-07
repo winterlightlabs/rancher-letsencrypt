@@ -37,6 +37,9 @@ vet:
 test:
 	go test -v ./...
 
+docker:
+	docker build -t timw/rancher-letsencrypt -f Dockerfile.local .
+
 release:
 	git tag -f `cat VERSION`
 	git push -f origin master --tags
