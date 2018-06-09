@@ -10,7 +10,7 @@ RUN wget -O /usr/bin/update-rancher-ssl https://raw.githubusercontent.com/ranche
 
 COPY rancher-entrypoint.sh /usr/bin/
 
-ADD https://github.com/janeczku/rancher-letsencrypt/releases/download/${LETSENCRYPT_RELEASE}/rancher-letsencrypt-linux-amd64.tar.gz /tmp/rancher-letsencrypt.tar.gz
+ADD https://github.com/vxcontrol/rancher-letsencrypt/releases/download/${LETSENCRYPT_RELEASE}/rancher-letsencrypt-linux-amd64.tar.gz /tmp/rancher-letsencrypt.tar.gz
 
 RUN tar -zxvf /tmp/rancher-letsencrypt.tar.gz -C /usr/bin \
 	&& chmod +x /usr/bin/rancher-letsencrypt
