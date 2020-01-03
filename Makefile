@@ -7,7 +7,7 @@
 PROJECT := rancher-letsencrypt
 PLATFORMS := linux
 ARCH := amd64
-DOCKER_IMAGE := registry.vxcontrol.com:8443/$(PROJECT)
+DOCKER_IMAGE := winterlightlabs/$(PROJECT)
 
 VERSION := $(shell cat VERSION)
 SHA := $(shell git rev-parse --short HEAD)
