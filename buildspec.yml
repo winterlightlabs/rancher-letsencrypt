@@ -15,7 +15,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build --cache-from $IMAGE_NAME:$IMAGE_TAG --build-arg AWS_ACCESS_KEY_ID=$BUILD_AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$BUILD_AWS_SECRET_ACCESS_KEY  --tag $IMAGE_NAME:$IMAGE_TAG .
+      - docker build --cache-from $IMAGE_NAME:$IMAGE_TAG --build-arg AWS_ACCESS_KEY_ID=$BUILD_AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$BUILD_AWS_SECRET_ACCESS_KEY --file $DOCKERFIE --tag $IMAGE_NAME:$IMAGE_TAG ./package/
       # The post_build always run. We can use this to stop it prematurely
       # See: https://docs.aws.amazon.com/codebuild/latest/userguide/view-build-details.html#view-build-details-phases
       # See: https://stackoverflow.com/questions/46584324/code-build-continues-after-build-fails
