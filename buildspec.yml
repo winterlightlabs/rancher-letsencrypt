@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.13
+  pre_build:
+    commands:
+      - echo Logging in to Docker Hub...
+      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - echo Pulling layer cache for the Docker image...
+      - docker pull $IMAGE_NAME:$IMAGE_TAG || true
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build --cache-from $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:$IMAGE_TAG --file $DOCKERFILE package/
+      # The post_build always run. We can use this to stop it prematurely
+      # See: https://docs.aws.amazon.com/codebuild/latest/userguide/view-build-details.html#view-build-details-phases
+      # See: https://stackoverflow.com/questions/46584324/code-build-continues-after-build-fails
+      - echo '#!/bin/bash' > /usr/local/bin/is_ok; echo 'if [[ "$CODEBUILD_BUILD_SUCCEEDING" == "0" ]]; then exit 1; else exit 0; fi' >> /usr/local/bin/is_ok; chmod +x /usr/local/bin/is_ok
+  post_build:
+    commands:
+      - is_ok && echo Build completed on `date`
+      - echo Pushing the Docker image to Docker Hub...
+      - docker push $IMAGE_NAME:$IMAGE_TAG
